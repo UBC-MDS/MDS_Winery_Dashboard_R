@@ -1,6 +1,5 @@
 library("maps")
 library("rnaturalearth")
-#library("rnaturalearthdata")
 library("tidyr")
 library(dash)
 library(dashCoreComponents)
