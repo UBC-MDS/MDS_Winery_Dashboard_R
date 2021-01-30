@@ -1,6 +1,6 @@
 # MDS_Winery_Dashboard
 
-The link to the deployed dashboard:
+The link to the deployed dashboard: https://mds-winery-dash.herokuapp.com/
 
 
 
