@@ -15,8 +15,9 @@ library(scales)
 library(rlang)
 library(dplyr)
 library(purrr)
+library(here)
 
-data <- read_csv('data/processed/cleaned_data.csv') %>% 
+data <- read_csv(here("data","processed","cleaned_data.csv")) %>% 
 filter(price <= 100, points >= 80) %>%
  mutate(log_value = log(value))
  ## data for states
@@ -329,4 +330,4 @@ app$callback(
 #         plotly(scatter)
 #     })
 
-app$run_server(debug = T)
+app$run_server(host = '0.0.0.0')
