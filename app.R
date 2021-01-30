@@ -130,12 +130,12 @@ app$layout(
                                     htmlH4('Top Wine Value:'),
                                     htmlH5(id = 'value_name'),
                                     htmlH6(id = 'value_number'),
-                                    htmlH6(id = 'value_price'))
+                                    htmlH6(id = 'value_price')),
+                                    style=list(backgroundColor ="#cdb4db",padding_left="20", padding_right="10", padding_top="3", padding_bottom="195",border= '1px solid #3c1a69', height = '180px', color = '#ffff')
+
                             )
                         )
                     ),
-                    htmlBr(),
-                    htmlBr(),
                     htmlBr(),
                     dbcRow(
                         list(
@@ -144,7 +144,8 @@ app$layout(
                                     htmlH4('Top Wine Score:'),
                                     htmlH5(id = 'points_name'),
                                     htmlH6(id = 'points_number'),
-                                    htmlH6(id = 'points_price'))
+                                    htmlH6(id = 'points_price')),
+                                    style=list(backgroundColor ="#cdb4db",padding_left="20", padding_right="10", padding_top="3", padding_bottom="195",border= '1px solid #3c1a69', height = '180px', color = '#ffff')
                             )
                         )
                     )
@@ -328,4 +329,4 @@ app$callback(
 #         plotly(scatter)
 #     })
 
-app$run_server(host = '0.0.0.0')
+app$run_server(debug=TRUE)
