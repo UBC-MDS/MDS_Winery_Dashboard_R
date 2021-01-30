@@ -1,6 +1,5 @@
-library("maps")
-library("rnaturalearth")
-library("tidyr")
+library(maps)
+library(tidyr)
 library(dash)
 library(dashCoreComponents)
 library(dashHtmlComponents)
