@@ -1,7 +1,5 @@
-library("maps")
-library("rnaturalearth")
-#library("rnaturalearthdata")
-library("tidyr")
+library(maps)
+library(tidyr)
 library(dash)
 library(dashCoreComponents)
 library(dashHtmlComponents)
@@ -132,12 +130,12 @@ app$layout(
                                     htmlH4('Top Wine Value:'),
                                     htmlH5(id = 'value_name'),
                                     htmlH6(id = 'value_number'),
-                                    htmlH6(id = 'value_price'))
+                                    htmlH6(id = 'value_price')),
+                                    style=list(backgroundColor ="#cdb4db",padding_left="20", padding_right="10", padding_top="3", padding_bottom="195",border= '1px solid #3c1a69', height = '180px', color = '#ffff')
+
                             )
                         )
                     ),
-                    htmlBr(),
-                    htmlBr(),
                     htmlBr(),
                     dbcRow(
                         list(
@@ -146,7 +144,8 @@ app$layout(
                                     htmlH4('Top Wine Score:'),
                                     htmlH5(id = 'points_name'),
                                     htmlH6(id = 'points_number'),
-                                    htmlH6(id = 'points_price'))
+                                    htmlH6(id = 'points_price')),
+                                    style=list(backgroundColor ="#cdb4db",padding_left="20", padding_right="10", padding_top="3", padding_bottom="195",border= '1px solid #3c1a69', height = '180px', color = '#ffff')
                             )
                         )
                     )
@@ -276,58 +275,5 @@ app$callback(
     }
 )
 
-
-# app$callback(
-#     list(output('value_card', 'children'),
-#          output('points_card', 'children')),
-#     list(input('state', 'value'),
-#          input('variety', 'value'),
-#          input('price', 'value')),
-#     function(input_value, input_value2, price_range) {
-
-#         df_filtered <- df %>% 
-#             filter(state %in% input_value,
-#                 variety %in% input_value2) %>% 
-#             arrange(desc(price)) %>% 
-#             select(price, title) %>% 
-#             slice(1)
-#         return(list(df_filtered[[1]], df_filtered[[2]]))
-#     })
-
-# app$callback(
-#     list(output('value_card', 'children')),
-#     list(input('variety', 'value'),
-#         input('state', 'value')),
-#     function(variety_selection, state_selection){
-#         variety <- variety_selection
-#         return (variety)
-# })
-
-
-
-# app$callback(
-#     list(output('toy', 'children')),
-#     list(input('price', 'value')),
-#     function(price){
-#         return (list(price[1], price[2]))
-#     })
-
-# app$callback(
-#     output('plots', 'figure'),
-#     list(input('state', 'value'),
-#          input('variety', 'value'),
-#          input('points', 'value'),
-#          input('price', 'value')),
-#     function(state_filter, variety_filter, points_filter, price_filter) {
-
-#         # filtered_df <- filter(df, 
-#         #     points %in% seq(points_filter[1],points_filter[2]),
-#         #     price %in% seq(price_filter[1], price_filter[2]),
-#         #     state == state_filter,
-#         #     variety == variety_filter)
-
-#         scatter = ggplot(df) + aes(x = price, y = points) + geom_point()
-#         plotly(scatter)
-#     })
-
-app$run_server(host = '0.0.0.0')
+app$run_server(debug=TRUE) # Comment in for local server
+# app$run_server(host = '0.0.0.0') # Comment in for heroku deployment
