@@ -23,4 +23,8 @@ This dashboard app enables potential customers to make their wise purchase by se
 
 ### Implementations in R
 - The function 'mean' of the price or rating causes errors for interactivity in Python, but this goes smooth in R.
+-
+-
+-
+
 
