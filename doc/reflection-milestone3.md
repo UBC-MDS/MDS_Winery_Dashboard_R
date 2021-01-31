@@ -11,7 +11,7 @@
 ### Future Implementation
 - There is currently no interactivity between the adjacent bar and scatter plots. We want to be able to give extra information based on selections on the graph
 - Add an additional bar chart providing the counts of the selected filter.
-- Have the hovering feature on the map given an output that is based on the filtered selection
+- The map is only connected to the states filter, not the variety, price or points filters. 
 - The value-vatio scale is not as clear as we would like. A majority of the data has a value ratio between 0 and 3, with outliers as high as 21. We need to find a way to implement a more balanced scale without having to remove outliers entirely (most of the filtering effects occur in the low-medium range). 
 - Add a 'data tab' that can be used to browse the different names of wines based on the filtered selection.
 - The filtered selection of the state dropdown does not affect the options of the variety dropdown (and vice versa). 
