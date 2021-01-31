@@ -2,7 +2,7 @@
 
 
 
-## Please find our website [HERE](https://mds-winery-dash.herokuapp.com "MDS Winery Dashboard")
+## Your supreme winery experience starts from [MDS Winery Dashboard](https://mds-winery-dash.herokuapp.com "MDS Winery Dashboard")
 
 
 
