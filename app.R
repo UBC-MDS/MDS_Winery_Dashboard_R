@@ -35,14 +35,16 @@ states_data <- left_join(states_data, df %>% select(c('code','state')), by = c("
 
 app <- Dash$new(external_stylesheets = dbcThemes$BOOTSTRAP)
 
+
 app$layout(
     dbcContainer(list(
+        htmlH1('MDS Winery Dashboard', style=list('textAlign'='center', 'color' = '#522889', 'font-size'= '27px','text-decoration'= 'underline')),
         dbcRow(
             list(
                 dbcCol(
                     list( 
                         htmlBr(),
-                        htmlLabel('State Selection'),
+                        htmlLabel('State Selection', style=list('color'= '#7a4eb5', "font-weight"="bold")),
                         dccDropdown(
                             id = 'state',
                             options = map(
@@ -53,7 +55,7 @@ app$layout(
                             multi = TRUE, 
                             placeholder = 'Select a State'
                         ),
-                        htmlLabel('Wine Type'),
+                        htmlLabel('Wine Type', style=list('color'= '#7a4eb5', "font-weight"="bold")),
                         dccDropdown(
                             id = 'variety',
                             options = map(
@@ -64,7 +66,7 @@ app$layout(
                             multi = TRUE,
                             placeholder = 'Select a Variety'
                         ),
-                        htmlLabel('Price Range'),
+                        htmlLabel('Price Range', style=list('color'= '#7a4eb5', "font-weight"="bold")),
                         dccRangeSlider(
                                 id = 'price',
                                 min = min(data$price),
@@ -78,7 +80,7 @@ app$layout(
                                 ),
                                 value = list(min(data$price), max(data$price))
                             ),
-                       htmlLabel('Points Range'),
+                       htmlLabel('Points Range', style=list('color'= '#7a4eb5', "font-weight"="bold")),
                        dccRangeSlider(
                                 id = 'points',
                                 min = min(data$points),
@@ -92,7 +94,7 @@ app$layout(
                                 ),
                                 value = list(min(data$points), max(data$points))
                                 ),
-                        htmlLabel('Value Ratio'),
+                        htmlLabel('Value Ratio', style=list('color'= '#7a4eb5', "font-weight"="bold")),
                         dccRangeSlider(
                                 id = 'value_ratio',
                                 min = 0 ,
@@ -114,12 +116,9 @@ app$layout(
             ),
         dbcRow(
             list(
-                dbcCol(
-                    list(
-                         dccGraph(id='bar')
-                        # htmlLabel('Scatter Plot | Bar Plot')
-                    ), md = 8
-                ),
+                dbcCol(list(dccGraph(id='bar')), md =5),
+                dbcCol(list(dccGraph(id='scatter')), md=5),     
+            # htmlLabel('Scatter Plot | Bar Plot')
             dbcCol(
                 list(
                     htmlBr(),
@@ -131,7 +130,7 @@ app$layout(
                                     htmlH5(id = 'value_name'),
                                     htmlH6(id = 'value_number'),
                                     htmlH6(id = 'value_price')),
-                                    style=list(backgroundColor ="#cdb4db",padding_left="20", padding_right="10", padding_top="3", padding_bottom="195",border= '1px solid #3c1a69', height = '180px', color = '#ffff')
+                                    style=list(backgroundColor ="#cdb4db",padding_left="20", padding_right="10", padding_top="3", padding_bottom="195",border= '1px solid #3c1a69', height = '200px', color = '#ffff')
 
                             )
                         )
@@ -145,11 +144,11 @@ app$layout(
                                     htmlH5(id = 'points_name'),
                                     htmlH6(id = 'points_number'),
                                     htmlH6(id = 'points_price')),
-                                    style=list(backgroundColor ="#cdb4db",padding_left="20", padding_right="10", padding_top="3", padding_bottom="195",border= '1px solid #3c1a69', height = '180px', color = '#ffff')
+                                    style=list(backgroundColor ="#cdb4db",padding_left="20", padding_right="10", padding_top="3", padding_bottom="195",border= '1px solid #3c1a69', height = '200px', color = '#ffff')
                             )
                         )
                     )
-                ), md = 4
+                ), md = 2
             )
         )
     )  # Change left/right whitespace for the container
@@ -166,8 +165,7 @@ app$callback(
         p <- plot_ly(states_data, 
         type = 'choropleth', locationmode = 'USA-states',
         z = ~num_reviews, locations = ~code, color = ~num_reviews, colors = wine_colors)
-        p <- p %>% layout(geo = list(scope = 'usa', projection = list(type = 'albers usa')),
-             title = 'USA exports')
+        p <- p %>% layout(geo = list(scope = 'usa', projection = list(type = 'albers usa')))
     }
 )
 app$callback(
@@ -246,8 +244,8 @@ app$callback(
             mutate(highlight_flag = ifelse(rating == max(rating), T, F))
         
         bar_plot <- ggplot(wine_data, aes(x=reorder(variety, -rating),
-                                     rating, fill= variety)) +
-                    geom_bar(stat='identity', show.legend = FALSE) +
+                                     rating, fill=variety)) +
+                    geom_bar(stat='identity', color = 'black', show.legend = FALSE) +
                     scale_y_continuous(limits = c(min(wine_data$rating),
                                         max(wine_data$rating)),
                                         oob=rescale_none) +
@@ -255,25 +253,53 @@ app$callback(
                     ylab("Rating") +
                     ggtitle(paste0("Rating", ' by ', "Wine Variety")) +
                     theme_bw() +
-                    ggthemes::scale_fill_tableau() +
                     theme(axis.text.x = element_text(angle=60, hjust=1),
                     legend.position = 'none',
-                    panel.grid.major = element_blank()) 
-                    
-
-        scatter_plot <- ggplot(wine_data) +
-                    aes(x = price,
-                        y = value,
-                        color = variety) +
-                    geom_point(size = 2) +
-                    ggthemes::scale_color_tableau()
+                    panel.grid.major = element_blank())
+     
                     #ggplotly(p, tooltip = 'variety') %>% layout(dragmode = 'select')
 
-        subplot(ggplotly(bar_plot), ggplotly(scatter_plot), nrows = 1) %>% layout(dragmode = 'select')
+         ggplotly(bar_plot + scale_fill_manual(values = c('#b59bd1', '#a710de', '#e66cd9', '#e8cae5', '#71a8d9', '#2c6d7d', '#0f3d36', '#5cd6b0', '#e3846f'))) %>% layout(dragmode = 'select')
     
         #ggplotly(new_plot, tooltip = 'rating') %>% layout(dragmode = 'select')
     }
 )
+app$callback(
+    output('scatter', 'figure'),
+    list(input('state', 'value'),
+         input('variety', 'value'),
+         input('price', 'value'),
+         input('points', 'value'),
+         input('value_ratio', 'value')),
+    function(selected_state, selected_variety, price_range, points_range, value_range) {
+        data = data %>% filter(state %in% selected_state, 
+                variety %in% selected_variety,
+                between(price, price_range[1], price_range[2]),
+                between(points, points_range[1], points_range[2]),
+                between(value, value_range[1], value_range[2]))
+        # data for bar plot
+        wine_data <- data %>%
+            group_by(variety) %>%
+            summarize(rating = mean(points),
+            price = mean(price),
+            value = mean(value)) %>%
+            arrange(desc(rating)) %>%
+            head(10)# %>%
+           # mutate(highlight_flag = ifelse(rating == max(rating), T, F))
+        
 
-app$run_server(debug=TRUE) # Comment in for local server
+        scatter_plot <- ggplot(wine_data) +
+                    aes(x = price,
+                        y = rating,
+                        color = variety) +
+                    geom_point(size = 3) +
+                    theme_bw() + 
+                    xlab('Price') + 
+                    ylab('Rating')
+                    #ggplotly(p, tooltip = 'variety') %>% layout(dragmode = 'select')
+
+        ggplotly(scatter_plot + scale_color_manual(values = c('#b59bd1', '#a710de', '#e66cd9', '#e8cae5', '#71a8d9', '#2c6d7d', '#0f3d36', '#5cd6b0', '#e3846f'))) %>% layout(dragmode = 'select')
+    }
+)
+app$run_server(debug=FALSE) # Comment in for local server
 # app$run_server(host = '0.0.0.0') # Comment in for heroku deployment
